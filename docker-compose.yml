@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python populate_db.py &&
+             python manage.py runserver 127.0.0.1:8000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PASS=${DB_PASS}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
+
+  db:
+    restart: always
+    container_name: db
+    ports:
+      - "5432:5432"
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+
+volumes:
+  db_data:
