@@ -13,6 +13,6 @@ def schedule_check(gym, start_time, end_time, day, model, instance=None, trainer
     if trainer:
         conflicting_schedules = conflicting_schedules.filter(trainer=trainer)
     if member:
-        conflicting_schedules = conflicting_schedules.filter(member=member)
+        conflicting_schedules = conflicting_schedules.filter(members=member)
     if conflicting_schedules.exists():
         raise serializers.ValidationError("User has conflicting schedules")
