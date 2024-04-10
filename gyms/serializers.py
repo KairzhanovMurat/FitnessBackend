@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from core.models import Gym, Regular, BaseUser
+
+from core.models import Gym, BaseUser
 
 
 class BaseGymSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gym
-        fields = ['name', 'city', 'address']
+        fields = ['id', 'name', 'city', 'address']
 
 
 class ReadGymSerializer(BaseGymSerializer):
