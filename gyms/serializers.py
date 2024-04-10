@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Gym, Regular
+from core.models import Gym, Regular, BaseUser
 
 
 class BaseGymSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class ReadGymSerializer(BaseGymSerializer):
 
 
 class GymsSerializer(BaseGymSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=Regular.objects.all(), required=False)
+    members = serializers.PrimaryKeyRelatedField(many=True, queryset=BaseUser.objects.all(), required=False)
 
     class Meta(ReadGymSerializer.Meta):
         ...
